@@ -10,13 +10,16 @@ public class Matchup {
 	
 	public Matchup(String team1, String team2){
 		teamScores = new HashMap<String, Integer>();
-		teamScores.putIfAbsent(team1, 0);
-		teamScores.putIfAbsent(team2, 0);
+		teamScores.put(team1, 0);
+		teamScores.put(team2, 0);
 	}
 	
-	public void incScore(String team){
-		if(teamScores.containsKey(team))
+	public boolean incScore(String team){
+		if(teamScores.containsKey(team)){
 			teamScores.put(team, teamScores.get(team) + 1);
+			return true;
+		}
+		return false;
 	}
 	
 	public String getFormattedScores(){

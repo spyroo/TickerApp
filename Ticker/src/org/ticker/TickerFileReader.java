@@ -66,4 +66,16 @@ public class TickerFileReader {
 		
 	}
 	
+	public void writeToTicker(String stringToWrite){
+		try {
+			FileWriter fw = new FileWriter(tickerText);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(stringToWrite);
+			bw.close();
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

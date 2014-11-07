@@ -1,2 +1,10 @@
 /* This is the matchup file, to make a matchup to be read by the program, enter it in this format
 /* jk__vs__knd
+[QC]__vs__ginyu
+dK__vs__TG
+.knd__vs__bfl`
+PINGPONG__vs__ET
+evil__vs__wu^
+[TF2]__vs__.hl
+[DMS]__vs__Bv
+fb.__vs__bonus!

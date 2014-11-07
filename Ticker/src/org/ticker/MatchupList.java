@@ -19,7 +19,6 @@ public class MatchupList {
 		for(Matchup m : matchups){
 			temp += m.getFormattedScores();
 		}
-		temp += "|";
 		return temp;
 	}
 	
