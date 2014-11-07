@@ -1,6 +1,2 @@
 /* This is the matchup file, to make a matchup to be read by the program, enter it in this format
-/* jk_vs_knd
-jk__vs__knd
-knd__vs__jk
-dK__vs__ET
-ginyu__vs__'bfl
+/* jk__vs__knd

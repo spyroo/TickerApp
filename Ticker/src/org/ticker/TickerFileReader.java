@@ -57,7 +57,7 @@ public class TickerFileReader {
 		try {
 			FileWriter fw = new FileWriter(matchupList);
 			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write("/* This is the matchup file, to make a matchup to be read by the program, enter it in this format\n/* jk[vs]knd");
+			bw.write("/* This is the matchup file, to make a matchup to be read by the program, enter it in this format\n/* jk__vs__knd");
 			bw.close();
 			fw.close();
 		} catch (IOException e) {
