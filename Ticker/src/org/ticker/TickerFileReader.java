@@ -14,15 +14,18 @@ public class TickerFileReader {
 	
 	private File matchupList;
 	private File tickerText;
+	private File scoreboardFile;
 	
 	public TickerFileReader(){
 		matchupList = new File("matchuplist.txt");
 		tickerText = new File("tickerText.txt");
+		scoreboardFile = new File("scoreboardFile.txt");
 		try {
 			if(matchupList.createNewFile()){
 				writeDefaultString();
 			}
 			tickerText.createNewFile();
+			scoreboardFile.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -69,6 +72,18 @@ public class TickerFileReader {
 	public void writeToTicker(String stringToWrite){
 		try {
 			FileWriter fw = new FileWriter(tickerText);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(stringToWrite);
+			bw.close();
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void writeToScoreboard(String stringToWrite){
+		try {
+			FileWriter fw = new FileWriter(scoreboardFile);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(stringToWrite);
 			bw.close();

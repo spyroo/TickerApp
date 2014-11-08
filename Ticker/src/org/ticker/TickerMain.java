@@ -1,7 +1,5 @@
 package org.ticker;
 
-import java.util.Scanner;
-
 public class TickerMain {
 
 	public static void main(String[] args) {
@@ -9,26 +7,28 @@ public class TickerMain {
 	}
 
 	public TickerMain() {
-		
+		System.out.println("Starting program and fetching scores...");
 		ScoreboardCreator scores = new ScoreboardCreator();
-		
-		System.out.println("Starting ticker app...");
 		TickerFileReader tfr = new TickerFileReader();
-		MatchupList ml = tfr.getMatchupList();
-		System.out.println(ml.getTickerText());
-		tfr.writeToTicker(ml.getTickerText());
+		System.out.println("Started!");
+		while (true) {
+			try {
+				tfr.writeToScoreboard("Current scores in NA Platinum");
+				Thread.currentThread().sleep(6000);
+				int pos = 1;
+				for (Team s : scores.getTeams()) {
+					String out = "#" + pos++ + ": " + s.getName() + " W" + s.getWins() + " L" + s.getLosses();
+					System.out.println("\t" + out);
+					tfr.writeToScoreboard(out);
+					Thread.currentThread().sleep(4000);
 
-		Scanner sc = new Scanner(System.in);
-		String line;
-		while ((line = sc.nextLine()) != null) {
-			String[] cmdpts = line.split(" ");
-			if (cmdpts[0].contains("add")) {
-				for (Matchup m : ml.getMatchupArrayList()) {
-					if (m.incScore(cmdpts[1])) {
-						System.out.println("Added a point to team " + cmdpts[1]);
-						rewriteTicker(tfr, ml);
-					}
 				}
+				tfr.writeToScoreboard("");
+				scores.rereadTeams();
+				System.out.println("Next update in 300000 milliseconds");
+				Thread.currentThread().sleep(300000);
+			} catch (Exception e) {
+
 			}
 		}
 

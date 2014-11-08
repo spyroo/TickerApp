@@ -9,10 +9,16 @@ public class ScoreboardCreator {
 	public static final String PLAT_URL_CURRENT_SEASON = "http://www.ugcleague.com/rankings_tf2h_currentseason.cfm?division=47";
 	private ArrayList<Team> teams;
 	
+	/**
+	 * @return the teams
+	 */
+	public ArrayList<Team> getTeams() {
+		return teams;
+	}
+
 	public ScoreboardCreator(){
 		teams = new ArrayList<Team>();
 		populateTeams(WebReader.getUrlSource(PLAT_URL_CURRENT_SEASON));
-		System.out.println(teams);
 	}
 	
 	private void populateTeams(ArrayList<String> unparsedSite){
@@ -37,6 +43,12 @@ public class ScoreboardCreator {
 				}
 			}
 		}
+	}
+	
+	public void rereadTeams(){
+		System.out.println("Re-reading team scores now...");
+		teams.clear();
+		populateTeams(WebReader.getUrlSource(PLAT_URL_CURRENT_SEASON));
 	}
 	
 	private String cleanInput(String input){

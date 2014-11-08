@@ -8,6 +8,7 @@ public class Team {
 	
 	public Team(String tag, String name, int wins, int losses, double matchpoints, int plusMinus, double winPercent, int pointsFor, int pointsAgainst, int pointsDiff, int gamesPlayed){
 		this.tag = tag;
+		this.name = name;
 		this.wins = wins;
 		this.losses = losses;
 		this.matchpoints = matchpoints;
@@ -161,6 +162,14 @@ public class Team {
 	@Override
 	public String toString(){
 		return tag + "," + wins + "," + losses + "," + matchpoints + "," + plusMinus + "," + winPercent + "," + pointsFor + "," + pointsAgainst + "," + pointsDiff + "," + gamesPlayed;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }
