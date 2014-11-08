@@ -9,6 +9,9 @@ public class TickerMain {
 	}
 
 	public TickerMain() {
+		
+		ScoreboardCreator scores = new ScoreboardCreator();
+		
 		System.out.println("Starting ticker app...");
 		TickerFileReader tfr = new TickerFileReader();
 		MatchupList ml = tfr.getMatchupList();
