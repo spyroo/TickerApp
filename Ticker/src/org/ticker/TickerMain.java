@@ -1,42 +1,101 @@
 package org.ticker;
 
-public class TickerMain {
+import java.util.ArrayList;
 
-	public static void main(String[] args) {
-		new TickerMain();
+public class TickerMain implements Runnable{
+	
+	private TickerWindow tw;
+	private boolean started;
+	private int time;
+	private int pos;
+	private ArrayList<Team> teams;
+	private ScoreboardCreator scores;
+	private TickerFileReader tfr;
+	private String currentlyDisplayed;
+	
+	public TickerMain(TickerWindow tw, boolean started){
+		this.tw = tw;
+		this.started = started;
+		time= 0;
+		pos = 1;
+		scores = new ScoreboardCreator();
+		teams = scores.getTeams();
+		tfr = new TickerFileReader();
+		currentlyDisplayed = "";
 	}
-
-	public TickerMain() {
-		System.out.println("Starting program and fetching scores...");
-		ScoreboardCreator scores = new ScoreboardCreator();
-		TickerFileReader tfr = new TickerFileReader();
-		System.out.println("Started!");
-		while (true) {
-			try {
-				tfr.writeToScoreboard("Current scores in NA Platinum");
-				Thread.currentThread().sleep(6000);
-				int pos = 1;
-				for (Team s : scores.getTeams()) {
-					String out = "#" + pos++ + ": " + s.getName() + " W" + s.getWins() + " L" + s.getLosses();
-					System.out.println("\t" + out);
-					tfr.writeToScoreboard(out);
-					Thread.currentThread().sleep(4000);
-
-				}
-				tfr.writeToScoreboard("");
-				scores.rereadTeams();
-				System.out.println("Next update in 300000 milliseconds");
-				Thread.currentThread().sleep(300000);
-			} catch (Exception e) {
-
-			}
-		}
-
+	
+	public void setStarted(boolean started){
+		this.started = started;
+	}
+	
+	public boolean getStarted(){
+		return started;
+	}
+	
+	public void setTime(int mills){
+		this.time = mills;
+	}
+	
+	public int getTime(){
+		return time;
 	}
 
 	public void rewriteTicker(TickerFileReader tfr, MatchupList ml) {
 		tfr.writeToTicker(ml.getTickerText());
 		System.out.println(ml.getTickerText());
+	}
+
+	public void setCurrentlyDisplayed(String toDisplay){
+		this.currentlyDisplayed = toDisplay;
+		tfr.writeToScoreboard(currentlyDisplayed);
+		tw.setTitle(currentlyDisplayed);
+	}
+	
+	@SuppressWarnings("static-access")
+	@Override
+	public void run() {
+		while(true){
+			if(started){
+				if(time < 0){
+					if(!displayNext()){
+						scores.rereadTeams();
+						teams = scores.getTeams();
+						time = getTimeBetweenRepeat();
+						setCurrentlyDisplayed("");
+					}else{
+						time = getTimeBetweenSlides();
+					}
+				}
+				
+				time--;
+			}
+			System.out.println(currentlyDisplayed);
+			try {
+				Thread.currentThread().sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private int getTimeBetweenSlides() {
+		return tw.getTimeBetweenSlides();
+	}
+
+	private int getTimeBetweenRepeat() {
+		return tw.getTimeBetweenRepeat();
+	}
+
+	private boolean displayNext() {
+		if(pos-1 < teams.size()){
+			Team s = teams.get(pos-1);
+			setCurrentlyDisplayed("#" + pos + ": " + s.getName() + " W" + s.getWins() + " L" + s.getLosses());
+			pos++;
+			return true;
+		}
+
+		pos = 1;
+		return false;
 	}
 
 }
